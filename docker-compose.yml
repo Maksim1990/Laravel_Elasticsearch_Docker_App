@@ -1,0 +1,55 @@
+version: '3.5'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8320:80"
+            - "4420:443"
+        volumes:
+            - ./docker/nginx/hosts:/etc/nginx/conf.d
+            - ./:/var/www
+            - ./logs/nginx/:/var/log/nginx:cached
+        depends_on:
+            - php_elastic
+    php_elastic:
+        build:
+            context: ./
+            dockerfile: ./docker/php/Dockerfile
+        container_name: laravel_elastic_app
+        user: "${UID}"
+        volumes:
+            - ./:/var/www
+            - ./data/composer:/.composer
+            - ./logs/laravel:/var/www/var/logs:cached
+        depends_on:
+            - mysql
+            - elasticsearch
+
+    mysql:
+        image: mysql:5.7.21
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+        ports:
+            - "8920:3306"
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+        container_name: elasticsearch
+        environment:
+            - ES_JAVA_OPTS=-Xmx2g -Xms2g
+#            - 'node.name=ELASTICNAME'
+            - 'discovery.type=single-node'
+            - 'bootstrap.memory_lock=true'
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - ./data/elastic:/usr/share/elasticsearch/data
+        ports:
+            - "9201:9200"
