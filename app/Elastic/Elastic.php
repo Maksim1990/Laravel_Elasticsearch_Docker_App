@@ -13,24 +13,25 @@ class Elastic
         $this->client = $client;
     }
 
-    /**
-     * Index a single item
-     *
-     * @param  array  $parameters [index, type, id, body]
-     */
     public function index(array $parameters)
     {
         return $this->client->index($parameters);
     }
 
-    /**
-     * Delete a single item
-     *
-     * @param  array  $parameters
-     */
+
     public function delete(array $parameters)
     {
         return $this->client->delete($parameters);
+    }
+
+    public function deleteIndex(array $parameters)
+    {
+        return $this->client->indices()->delete($parameters);
+    }
+
+    public function getDocument(array $parameters)
+    {
+        return $this->client->get($parameters);
     }
 
     public function search(array $parameters)

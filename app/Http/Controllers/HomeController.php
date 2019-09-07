@@ -45,8 +45,26 @@ class HomeController extends Controller
 //        var_dump($posts);
 
 
-//***************** elsticsearch/elsticsearch Package *****************//
+//***************** Working cases for elsticsearch/elsticsearch Package *****************//
         $elastic = app(Elastic::class);
+
+        /// Delete item from index by id and type
+//        $deleteParams = [
+//            'index' => 'blog',
+//            'type' => 'post',
+//            'id' => '11',
+//        ];
+//        $response = $elastic->delete($deleteParams);
+//        dd($response);
+
+
+        //Delete whole index by index name
+//        $deleteParams = [
+//            'index' => 'blog'
+//        ];
+//        $response = $elastic->deleteIndex($deleteParams);
+//        dd($response);
+
 
 //        $client=$elastic->index([
 //            'index' => 'blog',
@@ -71,21 +89,32 @@ class HomeController extends Controller
 //            }
 //        });
 
-        //====== Search by multiple fields ==============//
-//        $query = [
-//            'multi_match' => [
-//                'query' => 'Numquam',
-//                'fields' => ['title', 'content'],
-//                "fuzziness"=> "AUTO",
-//            ],
-//        ];
 
-        //====== Search by specific field ==============//
+        //Get document by index, type and ID
+//        $params = [
+//            'index' => 'blog',
+//            'type' => 'post',
+//            'id' => 6
+//        ];
+//
+//        $response = $elastic->getDocument($params);
+//        dd($response);
+
+        //====== Search by multiple fields ==============//
         $query = [
-            'match' => [
-                'content' => 'Dolores quidem qui aliquid dolorem autem expedita'
+            'multi_match' => [
+                'query' => 'Numquam',
+                'fields' => ['title', 'content'],
+                "fuzziness"=> "AUTO",
             ],
         ];
+
+        //====== Search by specific field ==============//
+//        $query = [
+//            'match' => [
+//                'content' => 'Dolores quidem qui aliquid dolorem autem expedita'
+//            ],
+//        ];
         //====== Search by wildcard (beginning of each word according to template) ==============//
 //        $query = [
 //            'wildcard' => [
@@ -122,14 +151,14 @@ class HomeController extends Controller
                     ]
                 ],
                 "sort"=>[
-                    "id"=>["order"=>"ASC"]
+                    "id"=>["order"=>"DESC"]
                 ]
             ]
         ];
 
         $response = $elastic->search($parameters);
-        var_dump($response["hits"]["hits"][0]["_id"]);
+        //var_dump($response["hits"]["hits"][0]["_id"]);
         dd($response);
-        //return view('home');
+        return view('home');
     }
 }
