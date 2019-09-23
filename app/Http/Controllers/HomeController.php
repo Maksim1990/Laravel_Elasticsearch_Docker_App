@@ -26,25 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-// **************** elasticquent/elasticquent Package ***************//
-        //Post::deleteMapping();
-        //Post::createIndex($shards = null, $replicas = null);
-        //Post::reindex();
-        //Post::putMapping($ignoreConflicts = true);
-        //Post::addAllToIndex();
-        //var_dump(Post::mappingExists());
-        //var_dump(Post::getMapping());
-//        $typeExists = Post::typeExists();
-//        var_dump($typeExists);
-//
-//
-//
-//        $posts = Post::search('In aliquam libero autem.');
-//       //$posts = Post::searchByQuery(array('match' => array('content' => 'veritatis')));
-//
-//        var_dump($posts);
-
-
+        
 //***************** Working cases for elsticsearch/elsticsearch Package *****************//
         $elastic = app(Elastic::class);
 
