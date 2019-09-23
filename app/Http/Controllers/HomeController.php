@@ -85,7 +85,7 @@ class HomeController extends Controller
         //====== Search by multiple fields ==============//
         $query = [
             'multi_match' => [
-                'query' => 'Numquam',
+                'query' => 'et',
                 'fields' => ['title', 'content'],
                 "fuzziness"=> "AUTO",
             ],
@@ -132,6 +132,7 @@ class HomeController extends Controller
                         'content' => (object) [],
                     ]
                 ],
+                //"size"=>30,
                 "sort"=>[
                     "id"=>["order"=>"DESC"]
                 ]
